@@ -1,0 +1,27 @@
+<h1>Thêm vé</h1>
+
+<% if(errors.length>0){ %>
+<ul>
+<% errors.forEach(e=>{ %>
+<li><%= e %></li>
+<% }) %>
+</ul>
+<% } %>
+
+<form action="/tickets/add"
+method="POST"
+enctype="multipart/form-data">
+
+<input name="ticketId" placeholder="Mã vé">
+
+<input name="eventName" placeholder="Tên sự kiện">
+
+<input name="price" type="number" placeholder="Giá">
+
+<input name="quantity" type="number" placeholder="Số lượng">
+
+<input type="file" name="image">
+
+<button>Save</button>
+
+</form>

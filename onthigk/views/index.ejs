@@ -1,0 +1,45 @@
+<h1>Danh sách vé</h1>
+
+<form action="/search">
+  <input name="keyword" placeholder="Tìm sự kiện">
+  <button>Tìm</button>
+</form>
+
+<a href="/add">Thêm vé</a>
+
+<table border="1">
+<tr>
+<th>ID</th>
+<th>Sự kiện</th>
+<th>Giá</th>
+<th>Số lượng</th>
+<th>Trạng thái</th>
+<th>Ảnh</th>
+<th>Action</th>
+</tr>
+
+<% tickets.forEach(ticket => { %>
+
+<tr>
+<td><%= ticket.ticketId %></td>
+<td><%= ticket.eventName %></td>
+<td><%= ticket.price %></td>
+<td><%= ticket.quantity %></td>
+<td><%= ticket.status %></td>
+
+<td>
+<% if(ticket.imageUrl){ %>
+<img src="<%= ticket.imageUrl %>" width="80">
+<% } %>
+</td>
+
+<td>
+<a href="/edit/<%= ticket.ticketId %>">Edit</a>
+<a href="/delete/<%= ticket.ticketId %>">Delete</a>
+</td>
+
+</tr>
+
+<% }) %>
+
+</table>

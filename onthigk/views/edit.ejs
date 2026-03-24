@@ -1,0 +1,54 @@
+<h1>Sửa vé</h1>
+
+<% if(errors.length>0){ %>
+<ul>
+<% errors.forEach(e=>{ %>
+<li><%= e %></li>
+<% }) %>
+</ul>
+<% } %>
+
+<form action="/update/<%= ticket.ticketId %>"
+method="POST"
+enctype="multipart/form-data">
+
+<input
+name="ticketId"
+value="<%= ticket.ticketId %>"
+readonly
+>
+
+<input
+name="eventName"
+value="<%= ticket.eventName %>"
+>
+
+<input
+name="price"
+type="number"
+value="<%= ticket.price %>"
+>
+
+<input
+name="quantity"
+type="number"
+value="<%= ticket.quantity %>"
+>
+
+<input type="hidden" name="oldImage" value="<%= ticket.imageUrl %>">
+
+<p>Ảnh hiện tại</p>
+
+<% if(ticket.imageUrl){ %>
+<img src="<%= ticket.imageUrl %>" width="100">
+<% } %>
+
+<br>
+
+<input type="file" name="image">
+
+<br><br>
+
+<button>Update</button>
+
+</form>
