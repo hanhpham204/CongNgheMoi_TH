@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Rooms Management</title>
+    <link rel="stylesheet" href="/css/rooms.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hotel Rooms Management</h1>
+      <% if (success) { %>
+      <div class="alert success"><%= success %></div>
+      <% } %> <% if (error) { %>
+      <div class="alert error"><%= error %></div>
+      <% } %>
+
+      <div class="top-actions">
+        <a href="/rooms/add" class="btn-link">+ Add New Room</a>
+      </div>
+
+      <section class="card">
+        <h2>Search / Filter</h2>
+        <form action="/rooms" method="GET" class="grid-form">
+          <input
+            type="text"
+            name="q"
+            placeholder="Search by roomName..."
+            value="<%= filters.q %>"
+          />
+          <select name="roomType">
+            <option value="">All room types</option>
+            <% allowedTypes.forEach((type) => { %>
+            <option value="<%= type %>" <%= filters.roomType === type ? "selected" : "" %>>
+              <%= type %>
+            </option>
+            <% }) %>
+          </select>
+          <select name="status">
+            <option value="">All status</option>
+            <% allowedStatus.forEach((st) => { %>
+            <option value="<%= st %>" <%= filters.status === st ? "selected" : "" %>>
+              <%= st %>
+            </option>
+            <% }) %>
+          </select>
+          <button type="submit">Search</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Available Rooms by Type</h2>
+        <div class="count-grid">
+          <% allowedTypes.forEach((type) => { %>
+          <div class="count-item">
+            <span><%= type %></span>
+            <strong><%= availableCountByType[type] || 0 %></strong>
+          </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Room List</h2>
+        <% if (!rooms.length) { %>
+        <p class="empty">No rooms found.</p>
+        <% } %>
+        <div class="rooms-grid">
+          <% rooms.forEach((room) => { %>
+          <div class="room-card">
+            <% if (room.imageUrl) { %>
+            <img src="<%= room.imageUrl %>" alt="<%= room.roomName %>" class="room-image room-image-card" />
+            <% } else { %>
+            <div class="no-image no-image-card">No Image</div>
+            <% } %>
+
+            <div class="room-card-body">
+              <h3><%= room.roomName %></h3>
+              <p><strong>Type:</strong> <%= room.roomType %></p>
+              <p><strong>Price/Night:</strong> $<%= Number(room.pricePerNight).toFixed(2) %></p>
+              <p><strong>Capacity:</strong> <%= room.capacity %></p>
+              <p>
+                <strong>Status:</strong>
+                <span class="badge <%= room.statusClass %>"><%= room.status %></span>
+              </p>
+              <p><strong>Revenue (3 nights):</strong> $<%= Number(room.revenue3Nights).toFixed(2) %></p>
+            </div>
+
+            <div class="room-card-actions">
+              <a href="/rooms/<%= room.roomId %>/edit" class="btn-link small">Edit</a>
+              <form action="/rooms/api/<%= room.roomId %>?_method=DELETE" method="POST">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
