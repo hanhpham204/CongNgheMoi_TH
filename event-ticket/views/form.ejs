@@ -1,0 +1,93 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0 bg-success-subtle mx-auto" style="max-width: 720px;">
+        <div class="card-body">
+            <h2 class="h4 text-center mb-4">
+                <%= item && item.ticketId ? 'Cập nhật vé sự kiện' : 'Thêm sự kiện mới' %>
+            </h2>
+
+            <% const errs = typeof errors !== 'undefined' ? errors : {}; %>
+            <% if (errs.general) { %>
+                <div class="alert alert-danger py-2"><%= errs.general %></div>
+            <% } %>
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">
+                        Tên sự kiện
+                        <% if (errs.eventName) { %><span class="text-danger"> - <%= errs.eventName %></span><% } %>
+                    </label>
+                    <input class="form-control" name="eventName" placeholder="Event" value="<%= (item && item.eventName) || '' %>" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Người chủ trì
+                        <% if (errs.holderName) { %><span class="text-danger"> - <%= errs.holderName %></span><% } %>
+                    </label>
+                    <input class="form-control" name="holderName" placeholder="Holder" value="<%= (item && item.holderName) || '' %>" required />
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">
+                            Số lượng
+                            <% if (errs.quantity) { %><span class="text-danger"> - <%= errs.quantity %></span><% } %>
+                        </label>
+                        <input type="number" class="form-control" name="quantity" value="<%= (item && item.quantity) || '' %>" required />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">
+                            Giá vé
+                            <% if (errs.pricePerTicket) { %><span class="text-danger"> - <%= errs.pricePerTicket %></span><% } %>
+                        </label>
+                        <input type="number" class="form-control" name="pricePerTicket" value="<%= (item && item.pricePerTicket) || '' %>" required />
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-1">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" name="category">
+                            <option value="Standard" <%=item && item.category==='Standard' ?'selected':'' %>>Standard</option>
+                            <option value="VIP" <%=item && item.category==='VIP' ?'selected':'' %>>VIP</option>
+                            <option value="VVIP" <%=item && item.category==='VVIP' ?'selected':'' %>>VVIP</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">
+                            Ngày sự kiện
+                            <% if (errs.eventDate) { %><span class="text-danger"> - <%= errs.eventDate %></span><% } %>
+                        </label>
+                        <input type="date" class="form-control" name="eventDate" value="<%= (item && item.eventDate) || '' %>" required />
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-1">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Trạng thái vé</label>
+                        <select class="form-select" name="status">
+                            <option value="Upcoming" <%=item && item.status==='Upcoming' ?'selected':'' %>>Upcoming</option>
+                            <option value="Sold" <%=item && item.status==='Sold' ?'selected':'' %>>Sold</option>
+                            <option value="Cancelled" <%=item && item.status==='Cancelled' ?'selected':'' %>>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Ảnh sự kiện</label>
+                        <input type="file" class="form-control" name="image" />
+                    </div>
+                </div>
+
+                <% if (item && item.imageUrl) { %>
+                    <img src="<%= item.imageUrl %>" alt="preview" class="img-fluid rounded border mt-3" />
+                <% } %>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <a href="/" class="btn btn-outline-secondary">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
